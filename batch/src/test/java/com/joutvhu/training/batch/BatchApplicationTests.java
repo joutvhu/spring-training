@@ -1,10 +1,10 @@
-package com.joutvhu.training.job;
+package com.joutvhu.training.batch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JobApplicationTests {
+class BatchApplicationTests {
     @Test
     void contextLoads() {
     }

@@ -1,0 +1,28 @@
+logging:
+  level:
+    com:
+      joutvhu:
+        training:
+          batch: TRACE
+
+app:
+  training:
+    chunk:
+      size: 50
+
+spring:
+  main:
+      allow-bean-definition-overriding: true
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    batch:
+      driverClassName: org.h2.Driver
+      jdbcUrl: jdbc:h2:mem:BATCH_DB
+      username: sa
+      password:
+
+h2:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
