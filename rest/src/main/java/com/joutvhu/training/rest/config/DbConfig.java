@@ -43,8 +43,8 @@ public class DbConfig {
      * @Bean(name = "mainDataSource")
      * @Primary
      * @ConfigurationProperties(prefix = "spring.datasource.main")
-     * public DataSource dataSource(DataSourceProperties properties) {
-     * return DataSourceBuilder.create().build();
+     * public DataSource dataSource() {
+     *     return DataSourceBuilder.create().build();
      * }
      */
     @Bean(name = "mainDataSource")
@@ -109,6 +109,6 @@ public class DbConfig {
     public DataSourceInitializer mainDataSourceInitializer(
             @Qualifier("mainDataSource") DataSource dataSource
     ) {
-        return loadScripts(dataSource, "query/schema.sql");
+        return loadScripts(dataSource, "query/schema.sql", "query/data.sql");
     }
 }
