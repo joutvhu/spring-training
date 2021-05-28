@@ -3,7 +3,14 @@ package com.joutvhu.training.rest.controller;
 import com.joutvhu.training.rest.model.entity.Product;
 import com.joutvhu.training.rest.model.view.ProductKey;
 import com.joutvhu.training.rest.service.ProductService;
+import com.joutvhu.training.rest.util.ExampleConstants;
 import com.joutvhu.training.rest.util.RouteConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,22 +27,33 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = RouteConstants.URL_PRODUCT)
+@Tag(name = "Product", description = "Product APIs")
 public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Operation(description = "Get all Products")
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
 
+    @Operation(description = "Get a Product by Product ID")
+    @Parameter(name = "productId", required = true, in = ParameterIn.PATH)
     @GetMapping(value = RouteConstants.URL_PRODUCT_ID)
     public ResponseEntity<Product> getOne(
-            ProductKey productKey
+            @Parameter(hidden = true) ProductKey productKey
     ) {
         return ResponseEntity.ok(productService.getOne(productKey.getProductId()));
     }
 
+    @Operation(description = "Create a Product")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    examples = @ExampleObject(value = ExampleConstants.PRODUCT_BODY)
+            ),
+            required = true
+    )
     @PostMapping
     public ResponseEntity<Product> create(
             @RequestBody Product product
@@ -43,14 +61,24 @@ public class ProductController {
         return ResponseEntity.ok(productService.create(product));
     }
 
+    @Operation(description = "Update a Product")
+    @Parameter(name = "productId", required = true, in = ParameterIn.PATH)
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    examples = @ExampleObject(value = ExampleConstants.PRODUCT_BODY)
+            ),
+            required = true
+    )
     @PutMapping(path = RouteConstants.URL_PRODUCT_ID)
     public ResponseEntity<Product> update(
-            @PathVariable Map<String, Long> productKey,
+            @Parameter(hidden = true) @PathVariable Map<String, Long> productKey,
             @RequestBody Product product
     ) {
         return ResponseEntity.ok(productService.update(productKey.get("productId"), product));
     }
 
+    @Operation(description = "Delete a Product")
+    @Parameter(name = "productId", required = true, in = ParameterIn.PATH)
     @DeleteMapping(path = RouteConstants.URL_PRODUCT_ID)
     public ResponseEntity delete(
             @PathVariable Long productId
