@@ -35,6 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable();
 
         http
+                .headers()
+                .frameOptions()
+                .sameOrigin();
+
+        http
                 .authorizeRequests()
                 .antMatchers(PUBLIC_END_POINTS).permitAll()
                 .anyRequest().permitAll();

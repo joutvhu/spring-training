@@ -6,6 +6,7 @@ plugins {
 
 group = 'com.joutvhu.training'
 version = '0.0.1-SNAPSHOT'
+targetCompatibility = '1.8'
 sourceCompatibility = '1.8'
 
 configurations {
