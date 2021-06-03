@@ -1,12 +1,15 @@
 package com.joutvhu.training.batch.step;
 
+import com.joutvhu.training.batch.model.domain.UserInfo;
+import com.joutvhu.training.batch.model.dto.UserDto;
 import com.joutvhu.training.batch.step.processor.FileProcessor;
-import com.joutvhu.training.batch.step.reader.FileReader;
 import com.joutvhu.training.batch.step.tasklet.LogTasklet;
 import com.joutvhu.training.batch.step.writer.FileWriter;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,13 +24,13 @@ public class StepProvider {
 
     @Bean(name = "fileStep")
     public Step getFileStep(
-            FileReader reader,
+            @Qualifier("userReader") ItemReader<UserInfo> reader,
             FileProcessor processor,
             FileWriter writer
     ) {
         return stepBuilderFactory
                 .get("fileStep")
-                .<String, String>chunk(chunkSize)
+                .<UserInfo, UserDto>chunk(chunkSize)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

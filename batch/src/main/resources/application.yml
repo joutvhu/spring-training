@@ -6,6 +6,9 @@ logging:
           batch: TRACE
 
 app:
+  file:
+    input:
+      path: in/input.csv
   training:
     chunk:
       size: 50
@@ -13,16 +16,14 @@ app:
 spring:
   main:
       allow-bean-definition-overriding: true
-  jpa:
-    show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
   datasource:
     batch:
       driverClassName: org.h2.Driver
       jdbcUrl: jdbc:h2:mem:BATCH_DB
       username: sa
       password:
-
-h2:
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    main:
+      driverClassName: org.h2.Driver
+      jdbcUrl: jdbc:h2:mem:MAIN_DB;MODE=Oracle
+      username: sa
+      password:
