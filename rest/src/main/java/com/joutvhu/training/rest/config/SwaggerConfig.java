@@ -1,16 +1,21 @@
 package com.joutvhu.training.rest.config;
 
+import com.joutvhu.training.rest.security.jwt.JwtService;
 import com.joutvhu.training.rest.util.CommonConstants;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collections;
+
 /**
  * @see <a href="https://swagger.io">Swagger</a>
- *      <a href="https://springdoc.org">SpringDoc</a>
+ * <a href="https://springdoc.org">SpringDoc</a>
  */
 @Configuration
 public class SwaggerConfig {
@@ -22,8 +27,28 @@ public class SwaggerConfig {
      */
     @Bean
     public OpenAPI swaggerAPI() {
-        return new OpenAPI()
+        OpenAPI result = new OpenAPI()
                 .info(apiInfo());
+
+        result
+                .schemaRequirement(
+                        "jwtToken",
+                        new SecurityScheme()
+                                .name(JwtService.TOKEN_HEADER)
+                                .description("Json Web Token")
+                                .type(SecurityScheme.Type.HTTP)
+                                .in(SecurityScheme.In.HEADER)
+                                .scheme(JwtService.TOKEN_PREFIX)
+                                .bearerFormat("JWT")
+                )
+                .security(
+                        Collections.singletonList(
+                                new SecurityRequirement()
+                                        .addList("jwtToken")
+                        )
+                );
+
+        return result;
     }
 
     /**

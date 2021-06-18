@@ -27,7 +27,10 @@ public class ProductService {
     }
 
     public Product update(Long id, Product product) {
-        return product;
+        Product p = getOne(id);
+        p.setProductName(product.getProductName());
+        productRepository.save(p);
+        return p;
     }
 
     public void delete(Long id) {
