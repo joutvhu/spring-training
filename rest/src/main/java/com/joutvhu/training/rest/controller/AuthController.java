@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class AuthController {
     @SecurityRequirements
     @PostMapping(value = RouteConstants.URL_LOGIN)
     public ResponseEntity<String> create(
-            @RequestBody LoginInformation information
+            @Validated @RequestBody LoginInformation information
     ) {
         if ("0".equals(information.getPassword()))
             return ResponseEntity.ok(jwtService.buildJwtToken(information.getUsername()));
