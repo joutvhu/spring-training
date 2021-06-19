@@ -27,10 +27,10 @@ public class AuthController {
     @SecurityRequirements
     @PostMapping(value = RouteConstants.URL_LOGIN)
     public ResponseEntity<String> create(
-            @RequestBody LoginInformation product
+            @RequestBody LoginInformation information
     ) {
-        if ("0".equals(product.getPassword()))
-            return ResponseEntity.ok(jwtService.buildJwtToken(product.getUsername()));
+        if ("0".equals(information.getPassword()))
+            return ResponseEntity.ok(jwtService.buildJwtToken(information.getUsername()));
         else
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }

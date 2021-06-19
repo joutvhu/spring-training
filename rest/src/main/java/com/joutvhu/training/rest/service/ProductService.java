@@ -1,11 +1,10 @@
 package com.joutvhu.training.rest.service;
 
+import com.joutvhu.training.rest.aop.Benchmark;
 import com.joutvhu.training.rest.model.entity.Product;
 import com.joutvhu.training.rest.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -26,6 +25,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    @Benchmark
     public Product update(Long id, Product product) {
         Product p = getOne(id);
         p.setProductName(product.getProductName());

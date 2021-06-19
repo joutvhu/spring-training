@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+@Log4j2
 @RestController
 @RequestMapping(value = RouteConstants.URL_PRODUCT)
 @Tag(name = "Product", description = "Product APIs")
@@ -35,6 +37,7 @@ public class ProductController {
     @Operation(description = "Get all Products")
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
+        log.debug("Get all Products");
         return ResponseEntity.ok(productService.getAll());
     }
 
@@ -44,6 +47,7 @@ public class ProductController {
     public ResponseEntity<Product> getOne(
             @Parameter(hidden = true) ProductKey productKey
     ) {
+        log.debug("Get a Product by Product ID");
         return ResponseEntity.ok(productService.getOne(productKey.getProductId()));
     }
 
@@ -58,6 +62,7 @@ public class ProductController {
     public ResponseEntity<Product> create(
             @RequestBody Product product
     ) {
+        log.debug("Create a Product");
         return ResponseEntity.ok(productService.create(product));
     }
 
@@ -71,10 +76,11 @@ public class ProductController {
     )
     @PutMapping(path = RouteConstants.URL_PRODUCT_ID)
     public ResponseEntity<Product> update(
-            @Parameter(hidden = true) @PathVariable Map<String, Long> productKey,
+            @Parameter(hidden = true) @PathVariable Map<String, String> productKey,
             @RequestBody Product product
     ) {
-        return ResponseEntity.ok(productService.update(productKey.get("productId"), product));
+        log.debug("Update a Product");
+        return ResponseEntity.ok(productService.update(Long.parseLong(productKey.get("productId")), product));
     }
 
     @Operation(description = "Delete a Product")
@@ -83,6 +89,7 @@ public class ProductController {
     public ResponseEntity delete(
             @PathVariable Long productId
     ) {
+        log.debug("Delete a Product");
         productService.delete(productId);
         return ResponseEntity.ok().build();
     }
