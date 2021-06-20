@@ -1,0 +1,29 @@
+logging:
+  level:
+    com:
+      joutvhu:
+        training:
+          batch: TRACE
+
+app:
+  file:
+    input:
+      path: in/input.csv
+  training:
+    chunk:
+      size: 50
+
+spring:
+  main:
+      allow-bean-definition-overriding: true
+  datasource:
+    batch:
+      driverClassName: org.h2.Driver
+      jdbcUrl: jdbc:h2:mem:BATCH_DB
+      username: sa
+      password:
+    main:
+      driverClassName: org.h2.Driver
+      jdbcUrl: jdbc:h2:mem:MAIN_DB;MODE=Oracle
+      username: sa
+      password:
