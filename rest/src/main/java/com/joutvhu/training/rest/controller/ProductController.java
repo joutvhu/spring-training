@@ -2,6 +2,7 @@ package com.joutvhu.training.rest.controller;
 
 import com.joutvhu.training.rest.model.entity.Product;
 import com.joutvhu.training.rest.model.view.ProductKey;
+import com.joutvhu.training.rest.model.view.RestResponse;
 import com.joutvhu.training.rest.service.ProductService;
 import com.joutvhu.training.rest.util.ExampleConstants;
 import com.joutvhu.training.rest.util.RouteConstants;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -40,20 +41,26 @@ public class ProductController {
 
     @Operation(description = "Get all Products")
     @GetMapping
-    public ResponseEntity<List<Product>> getAll() {
+    public ResponseEntity<RestResponse<List<Product>>> getAll() {
         log.debug("Get all Products");
-        return ResponseEntity.ok(productService.getAll());
+        return ResponseEntity.ok(new RestResponse(
+                productService.getAll(),
+                HttpStatus.OK
+        ));
     }
 
     @Operation(description = "Get a Product by Product ID")
     @Parameter(name = "productId", required = true, in = ParameterIn.PATH)
     @GetMapping(value = RouteConstants.URL_PRODUCT_ID)
-    public ResponseEntity<Product> getOne(
+    public ResponseEntity<RestResponse<Product>> getOne(
             @Validated
             @Parameter(hidden = true) ProductKey productKey
     ) {
         log.debug("Get a Product by Product ID");
-        return ResponseEntity.ok(productService.getOne(productKey.getProductId()));
+        return ResponseEntity.ok(new RestResponse(
+                productService.getOne(productKey.getProductId()),
+                HttpStatus.OK
+        ));
     }
 
     @Operation(description = "Create a Product")
@@ -64,12 +71,15 @@ public class ProductController {
             required = true
     )
     @PostMapping
-    public ResponseEntity<Product> create(
+    public ResponseEntity<RestResponse<Product>> create(
             @Validated({OnCreate.class})
             @RequestBody Product product
     ) {
         log.debug("Create a Product");
-        return ResponseEntity.ok(productService.create(product));
+        return ResponseEntity.ok(new RestResponse(
+                productService.create(product),
+                HttpStatus.OK
+        ));
     }
 
     @Operation(description = "Update a Product")
@@ -81,22 +91,25 @@ public class ProductController {
             required = true
     )
     @PutMapping(path = RouteConstants.URL_PRODUCT_ID)
-    public ResponseEntity<Product> update(
+    public ResponseEntity<RestResponse<Product>> update(
             @Parameter(hidden = true) @PathVariable Map<String, String> productKey,
             @Validated({OnUpdate.class}) @RequestBody Product product
     ) {
         log.debug("Update a Product");
-        return ResponseEntity.ok(productService.update(Long.parseLong(productKey.get("productId")), product));
+        return ResponseEntity.ok(new RestResponse(
+                productService.update(Long.parseLong(productKey.get("productId")), product),
+                HttpStatus.OK
+        ));
     }
 
     @Operation(description = "Delete a Product")
     @Parameter(name = "productId", required = true, in = ParameterIn.PATH)
     @DeleteMapping(path = RouteConstants.URL_PRODUCT_ID)
-    public ResponseEntity delete(
+    public ResponseEntity<RestResponse> delete(
             @PathVariable Long productId
     ) {
         log.debug("Delete a Product");
         productService.delete(productId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new RestResponse(HttpStatus.OK));
     }
 }

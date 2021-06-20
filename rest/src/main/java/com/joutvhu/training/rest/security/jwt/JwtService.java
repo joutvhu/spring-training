@@ -1,8 +1,13 @@
 package com.joutvhu.training.rest.security.jwt;
 
+import com.joutvhu.training.rest.exception.LoginException;
+import com.joutvhu.training.rest.model.view.RestResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +25,13 @@ public class JwtService {
     public static final String SECRET = "secret-key";
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer";
+
+    public String buildJwtToken(String username, String password) {
+        if ("0".equals(password))
+            return buildJwtToken(username);
+        else
+            throw new LoginException("Incorrect password.");
+    }
 
     public String buildJwtToken(String username) {
         String jwt = Jwts.builder()

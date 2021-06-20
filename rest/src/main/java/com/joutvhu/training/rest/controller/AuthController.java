@@ -1,6 +1,7 @@
 package com.joutvhu.training.rest.controller;
 
 import com.joutvhu.training.rest.model.view.LoginInformation;
+import com.joutvhu.training.rest.model.view.RestResponse;
 import com.joutvhu.training.rest.security.jwt.JwtService;
 import com.joutvhu.training.rest.util.RouteConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,12 +28,12 @@ public class AuthController {
     @Operation(description = "Get JWT token")
     @SecurityRequirements
     @PostMapping(value = RouteConstants.URL_LOGIN)
-    public ResponseEntity<String> create(
+    public ResponseEntity<RestResponse<String>> create(
             @Validated @RequestBody LoginInformation information
     ) {
-        if ("0".equals(information.getPassword()))
-            return ResponseEntity.ok(jwtService.buildJwtToken(information.getUsername()));
-        else
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(new RestResponse(
+                jwtService.buildJwtToken(information.getUsername(), information.getPassword()),
+                HttpStatus.OK
+        ));
     }
 }
