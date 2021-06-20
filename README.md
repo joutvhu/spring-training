@@ -1,2 +1,3 @@
-# spring-training
-Spring training
+# Spring Training
+
+- [Spring RESTful Web Service](/rest)
