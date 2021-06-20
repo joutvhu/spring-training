@@ -71,8 +71,8 @@ public class SwaggerConfig {
                 )
                 .license(
                         new License()
-                                .name("License Name")
-                                .url("License URL")
+                                .name("MIT License")
+                                .url("https://github.com/joutvhu/spring-training/blob/main/LICENSE")
                 );
     }
 }
