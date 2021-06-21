@@ -6,5 +6,5 @@
 - Run the following command.
 
 ```shell
-gradle bootRun --args='--spring.profiles.active=local'
+gradle bootRun -Dspring.profiles.active=local
 ```
