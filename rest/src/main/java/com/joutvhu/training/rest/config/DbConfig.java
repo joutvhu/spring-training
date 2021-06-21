@@ -38,8 +38,6 @@ public class DbConfig {
     }
 
     /**
-     * For old version
-     *
      * @Bean(name = "mainDataSource")
      * @Primary
      * @ConfigurationProperties(prefix = "spring.datasource.main")
