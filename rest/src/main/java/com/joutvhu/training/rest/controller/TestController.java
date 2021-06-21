@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +30,12 @@ public class TestController {
         BeanLifecycle beanLifecycle = (BeanLifecycle) applicationContext.getBean("beanLifecycle");
         beanLifecycle.ready();
         return ResponseEntity.ok(new RestResponse(HttpStatus.OK));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(description = "Test auth")
+    @GetMapping(path = RouteConstants.URL_TEST_AUTH)
+    public ResponseEntity<RestResponse<String>> testAuth() {
+        return ResponseEntity.ok(new RestResponse("Welcome", HttpStatus.OK));
     }
 }
