@@ -1,13 +1,9 @@
 package com.joutvhu.training.rest.security.jwt;
 
 import com.joutvhu.training.rest.exception.LoginException;
-import com.joutvhu.training.rest.model.view.RestResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,7 +52,10 @@ public class JwtService {
                     .getSubject();
 
             List<GrantedAuthority> fakeAuthorities = new ArrayList<>();
-            fakeAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+            if (user.startsWith("admin"))
+                fakeAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
+            else
+                fakeAuthorities.add(new SimpleGrantedAuthority("USER"));
 
             return user != null ?
                     new UsernamePasswordAuthenticationToken(user, null, fakeAuthorities) :
