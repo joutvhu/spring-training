@@ -1,6 +1,7 @@
 package com.joutvhu.training.rest.controller;
 
 import com.joutvhu.training.rest.model.view.RestResponse;
+import com.joutvhu.training.rest.service.AopService;
 import com.joutvhu.training.rest.service.BeanLifecycle;
 import com.joutvhu.training.rest.util.RouteConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,9 @@ public class TestController {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private AopService aopService;
+
     @Operation(description = "Test filecycle")
     @GetMapping(path = RouteConstants.URL_LIFECYCLE)
     public ResponseEntity<RestResponse> filecycle() {
@@ -37,5 +41,14 @@ public class TestController {
     @GetMapping(path = RouteConstants.URL_TEST_AUTH)
     public ResponseEntity<RestResponse<String>> testAuth() {
         return ResponseEntity.ok(new RestResponse("Welcome", HttpStatus.OK));
+    }
+
+    @Operation(description = "Test aop")
+    @GetMapping(path = RouteConstants.URL_AOP)
+    public ResponseEntity<RestResponse<String>> testAspect() {
+        aopService.workWithPublic();
+        aopService.notWorkWithFinal();
+        aopService.notWorkWhenCallInASameObject();
+        return ResponseEntity.ok(new RestResponse(HttpStatus.OK));
     }
 }
