@@ -15,4 +15,5 @@ public class RouteConstants {
     public final String URL_TEST = "/api/test";
     public final String URL_LIFECYCLE = "/lifecycle";
     public final String URL_TEST_AUTH = "/test-auth";
+    public final String URL_AOP = "/aop";
 }
