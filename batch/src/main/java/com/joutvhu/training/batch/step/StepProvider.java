@@ -3,6 +3,7 @@ package com.joutvhu.training.batch.step;
 import com.joutvhu.training.batch.model.domain.UserInfo;
 import com.joutvhu.training.batch.model.dto.UserDto;
 import com.joutvhu.training.batch.step.processor.FileProcessor;
+import com.joutvhu.training.batch.step.tasklet.ThreadTasklet;
 import com.joutvhu.training.batch.step.tasklet.LogTasklet;
 import com.joutvhu.training.batch.step.writer.FileWriter;
 import org.springframework.batch.core.Step;
@@ -43,6 +44,16 @@ public class StepProvider {
     ) {
         return stepBuilderFactory
                 .get("logStep")
+                .tasklet(tasklet)
+                .build();
+    }
+
+    @Bean(name = "threadStep")
+    public Step getThreadStep(
+            ThreadTasklet tasklet
+    ) {
+        return stepBuilderFactory
+                .get("threadStep")
                 .tasklet(tasklet)
                 .build();
     }
