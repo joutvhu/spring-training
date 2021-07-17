@@ -24,6 +24,10 @@ public class JobProvider {
     @Qualifier("logStep")
     private Step logStep;
 
+    @Autowired
+    @Qualifier("threadStep")
+    private Step threadStep;
+
     @Bean
     public Job getJob() {
         return jobBuilderFactory
@@ -31,6 +35,7 @@ public class JobProvider {
                 .listener(jobListener)
                 .start(fileStep)
                 .next(logStep)
+                .next(threadStep)
                 .build();
     }
 }

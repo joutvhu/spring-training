@@ -2,6 +2,7 @@ package com.joutvhu.training.rest.controller;
 
 import com.joutvhu.training.rest.model.view.RestResponse;
 import com.joutvhu.training.rest.service.AopService;
+import com.joutvhu.training.rest.service.AsyncService;
 import com.joutvhu.training.rest.service.BeanLifecycle;
 import com.joutvhu.training.rest.util.RouteConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +28,9 @@ public class TestController {
     @Autowired
     private AopService aopService;
 
+    @Autowired
+    private AsyncService asyncService;
+
     @Operation(description = "Test filecycle")
     @GetMapping(path = RouteConstants.URL_LIFECYCLE)
     public ResponseEntity<RestResponse> filecycle() {
@@ -49,6 +53,20 @@ public class TestController {
         aopService.workWithPublic();
         aopService.notWorkWithFinal();
         aopService.notWorkWhenCallInASameObject();
+        return ResponseEntity.ok(new RestResponse(HttpStatus.OK));
+    }
+
+    @Operation(description = "Test async")
+    @GetMapping(path = RouteConstants.URL_ASYNC)
+    public ResponseEntity<RestResponse<String>> testAsync() {
+        log.debug("Start testAsync");
+        asyncService.testAsync1();
+        asyncService.testAsync2();
+        asyncService.testAsync3();
+        asyncService.testAsync4();
+        asyncService.testAsync5();
+        asyncService.testAsync6();
+        log.debug("End testAsync");
         return ResponseEntity.ok(new RestResponse(HttpStatus.OK));
     }
 }
