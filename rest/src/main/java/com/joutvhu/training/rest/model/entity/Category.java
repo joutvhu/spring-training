@@ -1,5 +1,6 @@
 package com.joutvhu.training.rest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,10 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Table(name = "CATEGORY")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category implements Serializable {
+    private static final long serialVersionUID = -305275955293639832L;
+
     @Id
     @Column(name = "CATEGORY_ID")
     private Long categoryId;

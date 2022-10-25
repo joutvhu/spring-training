@@ -9,6 +9,17 @@ create table PRODUCT
     PRODUCT_NAME varchar(255) not null
 );
 
+create table PRODUCT_DETAIL
+(
+    DETAIL_ID   numeric      not null
+        constraint PRODUCT_DETAIL_PK
+            primary key,
+    PRODUCT_ID  numeric      not null
+        constraint REF_PRODUCT
+            references PRODUCT,
+    DESCRIPTION varchar(255) not null
+);
+
 create table CATEGORY
 (
     CATEGORY_ID   numeric      not null

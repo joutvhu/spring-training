@@ -112,4 +112,15 @@ public class ProductController {
         productService.delete(productId);
         return ResponseEntity.ok(new RestResponse(HttpStatus.OK));
     }
+
+    @PutMapping(path = RouteConstants.URL_PRODUCT_EDIT_ID)
+    public ResponseEntity<RestResponse<Product>> update(
+            @PathVariable Long productId
+    ) {
+        log.debug("Edit a Product");
+        return ResponseEntity.ok(new RestResponse(
+                productService.edit(productId),
+                HttpStatus.OK
+        ));
+    }
 }

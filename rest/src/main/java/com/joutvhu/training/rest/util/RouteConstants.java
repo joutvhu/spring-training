@@ -11,6 +11,9 @@ public class RouteConstants {
 
     public final String URL_PRODUCT = "/api/product";
     public final String URL_PRODUCT_ID = "/{productId}";
+    public final String URL_PRODUCT_EDIT_ID = "/edit/{productId}";
+
+    public final String URL_CATEGORY = "/api/category";
 
     public final String URL_TEST = "/api/test";
     public final String URL_LIFECYCLE = "/lifecycle";
